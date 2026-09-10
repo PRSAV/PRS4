@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="PRS.AssetVerify" />
-  <title>PRS.AssetVerify 4.1</title>
+  <title>PRS.AssetVerify 4.2</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
@@ -22,13 +22,16 @@
 <body class="welcome-mode">
   <nav id="welcomeNav" class="welcome-nav">
     <strong>PRS.AssetVerify</strong>
-    <button id="welcomeLoginBtn" class="primary">Sign in</button>
+    <div class="welcome-nav-actions">
+      <button id="welcomeSignupBtn" class="primary">Sign up</button>
+      <button id="welcomeLoginBtn" class="secondary">Login</button>
+    </div>
   </nav>
   <div id="appShell">
     <header class="topbar">
       <button id="menuBtn" class="icon-btn hidden" aria-label="Menu">☰</button>
       <div class="brand-center">
-        <strong>PRS.AssetVerify 4.1</strong>
+        <strong>PRS.AssetVerify 4.2</strong>
         <span id="companySubtitle" class="company-subtitle"></span>
       </div>
       <div class="top-actions">
@@ -71,7 +74,7 @@
           <p>Capture, verify and report physical assets with a complete audit trail—from any laptop, iPhone or Android device.</p>
           <div class="welcome-actions">
             <button id="openSignupBtn" class="primary large">Sign up</button>
-            <button id="openLoginBtn" class="secondary large">Sign in</button>
+            <button id="openLoginBtn" class="secondary large">Login</button>
           </div>
           <p class="welcome-security-note">Individual accounts · Server-enforced roles · Audited changes</p>
         </div>
@@ -253,15 +256,15 @@
   </div>
 
   <div id="loginModal" class="modal hidden"><div class="modal-sheet small-sheet">
-    <div class="modal-head"><div><div class="eyebrow">SECURE SIGN IN</div><h2>Welcome back</h2></div><button class="icon-btn" data-close="loginModal">✕</button></div>
+    <div class="modal-head"><div><div class="eyebrow">SECURE LOGIN</div><h2>Welcome back</h2></div><button class="icon-btn" data-close="loginModal">✕</button></div>
     <p class="muted">Use your approved account. New users must sign up first and wait for Lalit sir’s approval.</p>
     <div class="form-stack"><label>Email address<input id="loginEmail" type="email" autocomplete="username" placeholder="name@company.com" /></label><label>Password<input id="loginPassword" type="password" autocomplete="current-password" /></label></div>
-    <button id="loginBtn" class="primary full">Sign in securely</button>
+    <button id="loginBtn" class="primary full">Login securely</button>
   </div></div>
 
   <div id="signupModal" class="modal hidden"><div class="modal-sheet small-sheet">
     <div class="modal-head"><div><div class="eyebrow">SECURE SIGNUP</div><h2>Create your account</h2></div><button class="icon-btn" data-close="signupModal">✕</button></div>
-    <p class="muted">Lalit sir signs up first using the email and password configured in Cloudflare. Every later signup waits for his approval.</p>
+    <p class="muted">Submit your details to request an account. Lalit sir must approve your signup before you can log in.</p>
     <div class="form-stack">
       <label>Full name *<input id="signupName" autocomplete="name" maxlength="120" /></label>
       <label>Email address *<input id="signupEmail" type="email" autocomplete="username" placeholder="name@company.com" maxlength="200" /></label>

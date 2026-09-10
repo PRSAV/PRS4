@@ -16,12 +16,14 @@ const check = (condition, message) => {
 
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 check(ids.length === new Set(ids).size, 'HTML IDs are unique');
-for (const id of ['welcomeView','welcomeLoginBtn','openSignupBtn','signupModal','signupEmail','signupPassword','pendingSignupPanel','loginEmail','verifyView','userModal']) {
+for (const id of ['welcomeView','welcomeSignupBtn','welcomeLoginBtn','openSignupBtn','signupModal','signupEmail','signupPassword','pendingSignupPanel','loginEmail','verifyView','userModal']) {
   check(ids.includes(id), `Required UI element exists: ${id}`);
 }
-check(manifest.name === 'PRS.AssetVerify 4.1', 'PWA manifest identifies Version 4.1');
-check(sw.includes("prs-assetverify-4-1-approval-signup"), 'Service worker uses the Version 4.1 cache');
-check(sw.includes("./app.js?v=410-approval-signup"), 'Service worker caches the Version 4.1 app asset');
+check(manifest.name === 'PRS.AssetVerify 4.2', 'PWA manifest identifies Version 4.2');
+check(sw.includes("prs-assetverify-4-2-admin-login"), 'Service worker uses the Version 4.2 cache');
+check(sw.includes("./app.js?v=420-admin-login"), 'Service worker caches the Version 4.2 app asset');
+check(!html.toLowerCase().includes('request access'), 'Welcome page has no Request access button');
+check(html.indexOf('id="openSignupBtn"') < html.indexOf('id="openLoginBtn"'), 'Sign up is shown before Login');
 check(app.includes("'/auth/signup'"), 'Frontend submits mandatory signup credentials');
 check(app.includes("'/signup-requests'"), 'Frontend loads Lalit sir’s pending approvals');
 check(app.includes('Approve as Verifier'), 'Frontend shows explicit Verifier approval');
@@ -31,11 +33,14 @@ check(app.includes("'/companies'"), 'Frontend uses the protected company-creatio
 check(worker.includes("path.startsWith('/public/')"), 'Worker blocks every public company route');
 check(worker.includes('async function loginV4'), 'Worker has individual account login');
 check(worker.includes('async function authenticateV4'), 'Worker validates individual session tokens');
-check(worker.includes('async function signupV41'), 'Worker has approval-based signup');
-check(worker.includes('async function notifyInitialAdminOfSignup'), 'Worker sends signup notifications to the initial administrator');
+check(worker.includes('async function ensureLalitAdmin'), 'Worker provisions Lalit sir before login');
+check(worker.includes('env.LALIT_ADMIN_EMAIL'), 'Worker reads Lalit sir email from a secret');
+check(worker.includes('env.LALIT_ADMIN_PASSWORD'), 'Worker reads Lalit sir password from a secret');
+check(worker.includes('async function signupV42'), 'Worker has approval-based public signup');
+check(!worker.includes('SIGNUP_EMAIL'), 'Worker requires no email-service binding');
 check(worker.includes('async function decideSignupRequest'), 'Worker has protected approval and rejection endpoints');
 check(worker.includes("systemRoleByKey(env,auth.company.id,'VERIFIER')"), 'Approved accounts are forced to Verifier');
-check(worker.includes('Lalit sir must complete the first administrator signup'), 'Worker blocks other signups until Lalit sir registers');
+check(worker.includes('Lalit sir’s administrator account is not configured'), 'Worker blocks signups when Lalit provisioning is unavailable');
 check(worker.includes('You cannot change your own role'), 'Worker rejects self role changes');
 check(worker.includes('protected platform administrator'), 'Worker protects the initial administrator');
 check(worker.includes('The last Admin cannot be deleted'), 'Worker protects the final administrator');
@@ -52,4 +57,4 @@ for (const table of ['v20_companies','v20_members','v4_users','v4_user_membershi
 }
 db.close();
 
-console.log(`Version 4.1 static verification passed: ${checks.length} checks.`);
+console.log(`Version 4.2 static verification passed: ${checks.length} checks.`);

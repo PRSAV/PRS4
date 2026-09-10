@@ -1,11 +1,10 @@
-# Version 4.1 access-control rules
+# Version 4.2 access-control rules
 
 - Identity comes from an individual email, password hash, and 256-bit random session token.
-- The first signup becomes the protected platform administrator only when its email and password match the Worker secrets for Lalit sir.
-- Until that protected signup succeeds, every other signup is rejected.
+- Lalit sir's protected platform-admin account is provisioned automatically from `LALIT_ADMIN_EMAIL` and `LALIT_ADMIN_PASSWORD`; he never uses public signup.
+- Lalit sir's plaintext password is never placed in the application files and is converted to a salted password hash in D1.
 - Later signups store a salted password hash in a pending request and receive no session or company access.
 - Only Lalit sir can approve or reject pending signup requests. Approval attaches the user to the currently selected company as Verifier.
-- Signup email notifications never contain the applicant's password.
 - The protected platform administrator is attached as Admin and cannot be demoted or deleted.
 - Only the platform administrator can create a company.
 - Direct member-account creation is disabled; new users must complete signup and approval.

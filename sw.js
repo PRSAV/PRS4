@@ -1,8 +1,8 @@
-const CACHE = 'prs-assetverify-4-1-approval-signup';
+const CACHE = 'prs-assetverify-4-2-admin-login';
 const CORE = [
   './',
   './index.html',
-  './app.js?v=410-approval-signup',
+  './app.js?v=420-admin-login',
   './styles.css',
   './manifest.webmanifest',
   './icon.svg'

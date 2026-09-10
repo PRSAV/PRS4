@@ -1,6 +1,6 @@
-# PRS.AssetVerify 4.1 architecture
+# PRS.AssetVerify 4.2 architecture
 
-Version 4.1 retains the Version 2 company-scoped D1/R2 operational schema and adds individual identity, session, membership, pending-signup, and signup-rate-limit tables. Authentication is individual; authorization still resolves from the member's company role on every request. See `V4_SECURITY.md` for the enforced access rules.
+Version 4.2 retains the Version 2 company-scoped D1/R2 operational schema and adds individual identity, session, membership, pending-signup, and signup-rate-limit tables. Lalit sir's account is provisioned from Worker secrets; all public signups require his approval. Authorization still resolves from the member's company role on every request. See `V4_SECURITY.md` for the enforced access rules.
 
 ## Language decision
 
