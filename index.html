@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="PRS.AssetVerify" />
-  <title>PRS.AssetVerify 4</title>
+  <title>PRS.AssetVerify 4.1</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
@@ -28,7 +28,7 @@
     <header class="topbar">
       <button id="menuBtn" class="icon-btn hidden" aria-label="Menu">☰</button>
       <div class="brand-center">
-        <strong>PRS.AssetVerify 4</strong>
+        <strong>PRS.AssetVerify 4.1</strong>
         <span id="companySubtitle" class="company-subtitle"></span>
       </div>
       <div class="top-actions">
@@ -70,7 +70,7 @@
           <h1>PRS Asset<br />Verification Tool.</h1>
           <p>Capture, verify and report physical assets with a complete audit trail—from any laptop, iPhone or Android device.</p>
           <div class="welcome-actions">
-            <button id="openAccessInfoBtn" class="primary large">Request access</button>
+            <button id="openSignupBtn" class="primary large">Sign up</button>
             <button id="openLoginBtn" class="secondary large">Sign in</button>
           </div>
           <p class="welcome-security-note">Individual accounts · Server-enforced roles · Audited changes</p>
@@ -143,7 +143,12 @@
       <section id="usersView" class="view hidden">
         <div class="page-head">
           <div><div class="eyebrow">ACCESS CONTROL</div><h1>Team Members</h1></div>
-          <button id="addUserBtn" class="primary" data-permission-button="members.create">＋ Add Team Member</button>
+          <button id="refreshSignupRequestsBtn" class="secondary hidden">Refresh requests</button>
+        </div>
+        <div id="pendingSignupPanel" class="card hidden">
+          <div class="section-title-row"><div><h2>Pending signups</h2><p>Approve a person into the currently selected company. Every approved account starts as Verifier.</p></div><span id="pendingSignupCount" class="pill">0 pending</span></div>
+          <div id="pendingSignupList" class="user-cards"></div>
+          <div id="pendingSignupEmpty" class="empty">No signup requests are waiting.</div>
         </div>
         <div id="userCards" class="user-cards"></div>
       </section>
@@ -249,15 +254,22 @@
 
   <div id="loginModal" class="modal hidden"><div class="modal-sheet small-sheet">
     <div class="modal-head"><div><div class="eyebrow">SECURE SIGN IN</div><h2>Welcome back</h2></div><button class="icon-btn" data-close="loginModal">✕</button></div>
-    <p class="muted">Use your own account. The app identifies Lalit sir and every other user through their unique email, password and secure session.</p>
+    <p class="muted">Use your approved account. New users must sign up first and wait for Lalit sir’s approval.</p>
     <div class="form-stack"><label>Email address<input id="loginEmail" type="email" autocomplete="username" placeholder="name@company.com" /></label><label>Password<input id="loginPassword" type="password" autocomplete="current-password" /></label></div>
     <button id="loginBtn" class="primary full">Sign in securely</button>
   </div></div>
 
-  <div id="accessInfoModal" class="modal hidden"><div class="modal-sheet small-sheet">
-    <div class="modal-head"><div><div class="eyebrow">REQUEST ACCESS</div><h2>Ask your administrator</h2></div><button class="icon-btn" data-close="accessInfoModal">✕</button></div>
-    <p class="muted">Public sign-up is disabled for security. Lalit sir or another authorised administrator creates your account. You receive Verifier access first and a temporary password that must be changed at first sign-in.</p>
-    <button id="accessInfoCloseBtn" class="primary full">Understood</button>
+  <div id="signupModal" class="modal hidden"><div class="modal-sheet small-sheet">
+    <div class="modal-head"><div><div class="eyebrow">SECURE SIGNUP</div><h2>Create your account</h2></div><button class="icon-btn" data-close="signupModal">✕</button></div>
+    <p class="muted">Lalit sir signs up first using the email and password configured in Cloudflare. Every later signup waits for his approval.</p>
+    <div class="form-stack">
+      <label>Full name *<input id="signupName" autocomplete="name" maxlength="120" /></label>
+      <label>Email address *<input id="signupEmail" type="email" autocomplete="username" placeholder="name@company.com" maxlength="200" /></label>
+      <label>Password *<input id="signupPassword" type="password" autocomplete="new-password" minlength="10" /></label>
+      <label>Confirm password *<input id="signupConfirmPassword" type="password" autocomplete="new-password" minlength="10" /></label>
+    </div>
+    <div id="signupResult" class="info-box hidden"></div>
+    <button id="signupBtn" class="primary full">Sign up</button>
   </div></div>
 
   <div id="changePasswordModal" class="modal hidden"><div class="modal-sheet small-sheet">
@@ -266,13 +278,6 @@
     <div class="form-stack"><label>New password<input id="firstNewPassword" type="password" autocomplete="new-password" minlength="10" /></label><label>Confirm new password<input id="firstConfirmPassword" type="password" autocomplete="new-password" minlength="10" /></label></div>
     <button id="changePasswordBtn" class="primary full">Set password and continue</button>
     <button id="changePasswordLogoutBtn" class="secondary full">Sign out</button>
-  </div></div>
-
-  <div id="temporaryPasswordModal" class="modal hidden"><div class="modal-sheet small-sheet">
-    <div class="modal-head"><div><div class="eyebrow">ACCOUNT CREATED</div><h2>Copy the temporary password</h2></div><button class="icon-btn" data-close="temporaryPasswordModal">✕</button></div>
-    <p class="muted">This password is shown once. Share it privately with the new user; they must replace it at first sign-in.</p>
-    <div id="temporaryPasswordValue" class="temporary-password"></div>
-    <button id="copyTemporaryPasswordBtn" class="primary full">Copy password</button>
   </div></div>
 
   <div id="detailModal" class="modal hidden"><div class="modal-sheet">
