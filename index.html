@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="PRS.AssetVerify" />
-  <title>PRS.AssetVerify 4.2</title>
+  <title>PRS.AssetVerify 4.4</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
@@ -31,7 +31,7 @@
     <header class="topbar">
       <button id="menuBtn" class="icon-btn hidden" aria-label="Menu">☰</button>
       <div class="brand-center">
-        <strong>PRS.AssetVerify 4.2</strong>
+        <strong>PRS.AssetVerify 4.4</strong>
         <span id="companySubtitle" class="company-subtitle"></span>
       </div>
       <div class="top-actions">
@@ -146,12 +146,21 @@
       <section id="usersView" class="view hidden">
         <div class="page-head">
           <div><div class="eyebrow">ACCESS CONTROL</div><h1>Team Members</h1></div>
-          <button id="refreshSignupRequestsBtn" class="secondary hidden">Refresh requests</button>
+          <div class="page-actions">
+            <button id="resetAdminPasswordBtn" class="secondary hidden">Reset my password</button>
+            <button id="inviteUserBtn" class="primary hidden">＋ Invite user</button>
+            <button id="refreshSignupRequestsBtn" class="secondary hidden">Refresh requests</button>
+          </div>
         </div>
         <div id="pendingSignupPanel" class="card hidden">
           <div class="section-title-row"><div><h2>Pending signups</h2><p>Approve a person into the currently selected company. Every approved account starts as Verifier.</p></div><span id="pendingSignupCount" class="pill">0 pending</span></div>
           <div id="pendingSignupList" class="user-cards"></div>
           <div id="pendingSignupEmpty" class="empty">No signup requests are waiting.</div>
+        </div>
+        <div id="pendingInvitePanel" class="card hidden">
+          <div class="section-title-row"><div><h2>Pending invitations</h2><p>Invitations created by Lalit sir for this company. Every invite joins as Verifier.</p></div><span id="pendingInviteCount" class="pill">0 pending</span></div>
+          <div id="pendingInviteList" class="user-cards"></div>
+          <div id="pendingInviteEmpty" class="empty">No invitations are waiting.</div>
         </div>
         <div id="userCards" class="user-cards"></div>
       </section>
@@ -258,7 +267,7 @@
   <div id="loginModal" class="modal hidden"><div class="modal-sheet small-sheet">
     <div class="modal-head"><div><div class="eyebrow">SECURE LOGIN</div><h2>Welcome back</h2></div><button class="icon-btn" data-close="loginModal">✕</button></div>
     <p class="muted">Use your approved account. New users must sign up first and wait for Lalit sir’s approval.</p>
-    <div class="form-stack"><label>Email address<input id="loginEmail" type="email" autocomplete="username" placeholder="name@company.com" /></label><label>Password<input id="loginPassword" type="password" autocomplete="current-password" /></label></div>
+    <div class="form-stack"><label>Mobile number<input id="loginMobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210" maxlength="20" /></label><label>Password<input id="loginPassword" type="password" autocomplete="current-password" /></label></div>
     <button id="loginBtn" class="primary full">Login securely</button>
   </div></div>
 
@@ -267,7 +276,7 @@
     <p class="muted">Submit your details to request an account. Lalit sir must approve your signup before you can log in.</p>
     <div class="form-stack">
       <label>Full name *<input id="signupName" autocomplete="name" maxlength="120" /></label>
-      <label>Email address *<input id="signupEmail" type="email" autocomplete="username" placeholder="name@company.com" maxlength="200" /></label>
+      <label>Mobile number *<input id="signupMobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210" maxlength="20" /></label>
       <label>Password *<input id="signupPassword" type="password" autocomplete="new-password" minlength="10" /></label>
       <label>Confirm password *<input id="signupConfirmPassword" type="password" autocomplete="new-password" minlength="10" /></label>
     </div>
@@ -281,6 +290,48 @@
     <div class="form-stack"><label>New password<input id="firstNewPassword" type="password" autocomplete="new-password" minlength="10" /></label><label>Confirm new password<input id="firstConfirmPassword" type="password" autocomplete="new-password" minlength="10" /></label></div>
     <button id="changePasswordBtn" class="primary full">Set password and continue</button>
     <button id="changePasswordLogoutBtn" class="secondary full">Sign out</button>
+  </div></div>
+
+  <div id="acceptInviteModal" class="modal hidden"><div class="modal-sheet small-sheet">
+    <div class="modal-head"><div><div class="eyebrow">TEAM INVITATION</div><h2>Join your company team</h2></div><button class="icon-btn" data-close="acceptInviteModal">✕</button></div>
+    <p class="muted">Use the same mobile number that Lalit sir invited. New users create a password here; existing users enter their current password.</p>
+    <div class="form-stack">
+      <label>Invited mobile number *<input id="inviteAcceptMobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210" maxlength="20" /></label>
+      <label>Password *<input id="inviteAcceptPassword" type="password" autocomplete="current-password" minlength="10" /></label>
+      <label>Confirm password *<input id="inviteAcceptConfirmPassword" type="password" autocomplete="current-password" minlength="10" /></label>
+    </div>
+    <button id="acceptInviteBtn" class="primary full">Accept invitation and continue</button>
+  </div></div>
+
+  <div id="inviteUserModal" class="modal hidden"><div class="modal-sheet small-sheet">
+    <div class="modal-head"><div><div class="eyebrow">INVITE TEAM MEMBER</div><h2>Send company invitation</h2></div><button class="icon-btn" data-close="inviteUserModal">✕</button></div>
+    <p class="muted">Create a secure, one-time invitation and send it from your WhatsApp. After accepting, the account joins the selected company as Verifier.</p>
+    <div class="form-stack">
+      <div class="grid two">
+        <label>First name *<input id="inviteFirstName" autocomplete="given-name" maxlength="60" /></label>
+        <label>Last name *<input id="inviteLastName" autocomplete="family-name" maxlength="60" /></label>
+      </div>
+      <label>Mobile number *<input id="inviteMobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210" maxlength="20" /></label>
+      <label>Company *<select id="inviteCompany"></select></label>
+    </div>
+    <button id="sendInviteBtn" class="primary full">Create invitation</button>
+    <div id="inviteShareResult" class="invite-share-result hidden">
+      <strong>Invitation ready</strong>
+      <p>Send this private link only to the mobile number shown above.</p>
+      <button id="inviteWhatsAppBtn" class="success full" type="button">Open WhatsApp</button>
+      <button id="copyInviteLinkBtn" class="secondary full" type="button">Copy invitation link</button>
+    </div>
+  </div></div>
+
+  <div id="adminPasswordModal" class="modal hidden"><div class="modal-sheet small-sheet">
+    <div class="modal-head"><div><div class="eyebrow">LALIT SIR ACCOUNT</div><h2>Reset my password</h2></div><button class="icon-btn" data-close="adminPasswordModal">✕</button></div>
+    <p class="muted">Only the protected platform administrator can use this option. All other signed-in devices will be logged out.</p>
+    <div class="form-stack">
+      <label>Current password *<input id="adminCurrentPassword" type="password" autocomplete="current-password" /></label>
+      <label>New password *<input id="adminNewPassword" type="password" autocomplete="new-password" minlength="10" /></label>
+      <label>Confirm new password *<input id="adminConfirmPassword" type="password" autocomplete="new-password" minlength="10" /></label>
+    </div>
+    <button id="saveAdminPasswordBtn" class="primary full">Update password</button>
   </div></div>
 
   <div id="detailModal" class="modal hidden"><div class="modal-sheet">
@@ -371,7 +422,7 @@
 
   <div id="userModal" class="modal hidden"><div class="modal-sheet small-sheet">
     <div class="modal-head"><div><div class="eyebrow">TEAM MEMBER</div><h2 id="userModalTitle">Add Team Member</h2></div><button class="icon-btn" data-close="userModal">✕</button></div>
-    <div class="form-stack"><label>Full Name *<input id="userName" /></label><label id="userEmailWrap">Email address *<input id="userEmail" type="email" autocomplete="off" /></label><label id="userRoleWrap">Role *<select id="userRole"></select></label></div>
+    <div class="form-stack"><label>Full Name *<input id="userName" /></label><label id="userMobileWrap">Mobile number *<input id="userMobile" type="tel" inputmode="tel" autocomplete="off" /></label><label id="userRoleWrap">Role *<select id="userRole"></select></label></div>
     <div id="newUserRoleNote" class="info-box">New accounts always start as Verifier. Admin rights can only be granted later by another authorised administrator.</div>
     <button id="saveUserBtn" class="primary full">Save Team Member</button>
   </div></div>
@@ -407,6 +458,6 @@
   </div></div>
 
   <div id="toast" class="toast hidden"></div>
-  <script src="app.js?v=400-secure-accounts"></script>
+  <script src="app.js?v=440-mobile"></script>
 </body>
 </html>
