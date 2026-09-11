@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="PRS.AssetVerify" />
-  <title>PRS.AssetVerify 4.4</title>
+  <title>PRS.AssetVerify 4.5</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
@@ -31,7 +31,7 @@
     <header class="topbar">
       <button id="menuBtn" class="icon-btn hidden" aria-label="Menu">☰</button>
       <div class="brand-center">
-        <strong>PRS.AssetVerify 4.4</strong>
+        <strong>PRS.AssetVerify 4.5</strong>
         <span id="companySubtitle" class="company-subtitle"></span>
       </div>
       <div class="top-actions">
@@ -305,7 +305,7 @@
 
   <div id="inviteUserModal" class="modal hidden"><div class="modal-sheet small-sheet">
     <div class="modal-head"><div><div class="eyebrow">INVITE TEAM MEMBER</div><h2>Send company invitation</h2></div><button class="icon-btn" data-close="inviteUserModal">✕</button></div>
-    <p class="muted">Create a secure, one-time invitation and send it from your WhatsApp. After accepting, the account joins the selected company as Verifier.</p>
+    <p class="muted">Create a secure, one-time invitation. When automatic WhatsApp delivery is configured, the link is sent to this number immediately. After accepting, the account joins the selected company as Verifier.</p>
     <div class="form-stack">
       <div class="grid two">
         <label>First name *<input id="inviteFirstName" autocomplete="given-name" maxlength="60" /></label>
@@ -314,11 +314,11 @@
       <label>Mobile number *<input id="inviteMobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210" maxlength="20" /></label>
       <label>Company *<select id="inviteCompany"></select></label>
     </div>
-    <button id="sendInviteBtn" class="primary full">Create invitation</button>
+    <button id="sendInviteBtn" class="primary full">Create and send invitation</button>
     <div id="inviteShareResult" class="invite-share-result hidden">
-      <strong>Invitation ready</strong>
-      <p>Send this private link only to the mobile number shown above.</p>
-      <button id="inviteWhatsAppBtn" class="success full" type="button">Open WhatsApp</button>
+      <strong id="inviteDeliveryTitle">Invitation ready</strong>
+      <p id="inviteDeliveryStatus">The private invitation link is ready.</p>
+      <button id="inviteWhatsAppBtn" class="success full" type="button">Send manually in WhatsApp</button>
       <button id="copyInviteLinkBtn" class="secondary full" type="button">Copy invitation link</button>
     </div>
   </div></div>
@@ -458,6 +458,6 @@
   </div></div>
 
   <div id="toast" class="toast hidden"></div>
-  <script src="app.js?v=440-mobile"></script>
+  <script src="app.js?v=450-twilio"></script>
 </body>
 </html>

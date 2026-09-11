@@ -1,8 +1,8 @@
-const CACHE = 'prs-assetverify-4-4-mobile-only';
+const CACHE = 'prs-assetverify-4-5-twilio-whatsapp';
 const CORE = [
   './',
   './index.html',
-  './app.js?v=440-mobile',
+  './app.js?v=450-twilio',
   './styles.css',
   './manifest.webmanifest',
   './icon.svg'
