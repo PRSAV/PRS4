@@ -1,6 +1,6 @@
-# PRS.AssetVerify 4.2 architecture
+# PRS.AssetVerify 4.6 architecture
 
-Version 4.2 retains the Version 2 company-scoped D1/R2 operational schema and adds individual identity, session, membership, pending-signup, and signup-rate-limit tables. Lalit sir's account is provisioned from Worker secrets; all public signups require his approval. Authorization still resolves from the member's company role on every request. See `V4_SECURITY.md` for the enforced access rules.
+Version 4.6 retains the Version 2 company-scoped D1/R2 operational schema and mobile-number identity. User-password PBKDF2 remains capped at the Cloudflare Worker runtime's supported 100,000 iterations. Lalit sir's mobile account is provisioned from Worker settings; public signups require his approval, while company-specific invitations are created only by him. Twilio WhatsApp sends the one-time link automatically when configured, with clear delivery diagnostics and manual fallbacks. Lalit alone can delete pending access records or reset a linked user's password; a reset revokes that user's sessions and forces a private password change. Authorization still resolves from the member's company role on every request. See `V4_SECURITY.md` for the enforced access rules.
 
 ## Language decision
 
@@ -14,8 +14,8 @@ A rewrite to Python, Java or .NET would add a server/runtime that this architect
 
 Use a separate GitHub site, Worker, D1 database and R2 bucket:
 
-- GitHub repository: `PRS2`
-- Website: `https://prsav.github.io/PRS2/`
+- GitHub repository: `PRS4`
+- Website: `https://prsav.github.io/PRS4/`
 - Worker: `pv-capture-ai-v2`
 - Worker URL expected by this package: `https://pv-capture-ai-v2.mahipal-office21.workers.dev`
 - D1 database: `pv-capture-db-v2`
