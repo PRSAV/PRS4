@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="PRS.AssetVerify" />
-  <title>PRS.AssetVerify 4.5</title>
+  <title>PRS.AssetVerify 4.6</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
@@ -31,7 +31,7 @@
     <header class="topbar">
       <button id="menuBtn" class="icon-btn hidden" aria-label="Menu">☰</button>
       <div class="brand-center">
-        <strong>PRS.AssetVerify 4.5</strong>
+        <strong>PRS.AssetVerify 4.6</strong>
         <span id="companySubtitle" class="company-subtitle"></span>
       </div>
       <div class="top-actions">
@@ -334,6 +334,14 @@
     <button id="saveAdminPasswordBtn" class="primary full">Update password</button>
   </div></div>
 
+  <div id="memberPasswordResetModal" class="modal hidden"><div class="modal-sheet small-sheet">
+    <div class="modal-head"><div><div class="eyebrow">USER PASSWORD RESET</div><h2>Temporary password created</h2></div><button class="icon-btn" data-close="memberPasswordResetModal">✕</button></div>
+    <p id="memberPasswordResetSummary" class="muted"></p>
+    <div id="memberTemporaryPassword" class="temporary-password"></div>
+    <p class="muted">Copy this password now—it is shown only once. The user has been logged out everywhere and must create a private password after signing in.</p>
+    <button id="copyMemberTemporaryPasswordBtn" class="primary full" type="button">Copy temporary password</button>
+  </div></div>
+
   <div id="detailModal" class="modal hidden"><div class="modal-sheet">
     <div class="modal-head"><div><div class="eyebrow">NEW VERIFICATION</div><h2 id="detailTitle">Add details</h2></div><button id="discardPhotoBtn" class="icon-btn">✕</button></div>
     <div id="photoPreviewArea" class="multi-photo-area"><img id="photoPreview" class="preview" alt="Verification photo" /><div id="photoThumbs" class="photo-thumbs"></div><div id="addPhotoControls" class="grid two"><button id="addCameraPhotoBtn" type="button" class="secondary">📷 Add Another Photo</button><button id="addGalleryPhotosBtn" type="button" class="secondary">▣ Add Gallery Photos</button></div></div>
@@ -458,6 +466,6 @@
   </div></div>
 
   <div id="toast" class="toast hidden"></div>
-  <script src="app.js?v=450-twilio"></script>
+  <script src="app.js?v=460-admin-controls"></script>
 </body>
 </html>
